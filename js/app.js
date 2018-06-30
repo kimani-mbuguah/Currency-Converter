@@ -9,7 +9,7 @@ function performConversion(){
     fromCurrency = encodeURIComponent(fromCurrency);
     toCurrency = encodeURIComponent(toCurrency);
     let query = fromCurrency + '_' + toCurrency;
-    let url = "https://free.currencyconverterapi.com/api/v5/convert?q=" +query + "&compact=ultra";
+    let url = "https://free.currencyconverterapi.com/api/v5/convert?q=" + query + "&compact=ultra";
 
     //fetch 
     fetch(url).then(response => { 

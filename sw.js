@@ -9,8 +9,9 @@ self.addEventListener('install', function(event) {
         'js/sweetalert/sweetalert.min.js',
         'css/sweetalert/sweetalert.css',
         'css/styles.css',
-        'images/money.jpg',
-        'images/favicon.ico'
+        'images/bg.jpg',
+        'images/favicon.ico',
+        'https://free.currencyconverterapi.com/'
       ]);
     })
   );
