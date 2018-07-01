@@ -30,10 +30,6 @@ These instructions will get you a copy of the project up and running on your loc
 * Launch the app by entering the url localhost/"application folder name"/index.html or
 * 127.0.0.1/"installation directory"/index.html
 
-## Help
-
-Any advise for common problems or issues.
-
 ## Authors
 Kimani Mbuguah  
 kimanimbuguah@gmail.com
@@ -45,10 +41,6 @@ kimanimbuguah@gmail.com
     * See [commit change]() or See [release history]()
 * 1.0
     * Initial Release
-
-## License
-
-This project is licensed under the [NAME HERE] License - see the LICENSE.md file for details
 
 ## Acknowledgments
 * Google Africa Scholarship Challenge.
