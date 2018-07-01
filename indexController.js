@@ -21,7 +21,12 @@ if ('serviceWorker' in navigator) {
     console.log('Service worker registration failed:', error);
   });
 
-  
+  let ref;
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if (ref) return;
+    window.location.reload();
+    ref = true;
+  });
 
   function updateReady(worker) {
     (

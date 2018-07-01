@@ -4,6 +4,7 @@ self.addEventListener('install', (event)=> {
     caches.open(staticCacheName).then(function(cache) {
       return cache.addAll([
         './',
+        'index.html',
         'https://fonts.googleapis.com/css?family=Montserrat',
         'js/app.js',
         'js/sweetalert/sweetalert.min.js',

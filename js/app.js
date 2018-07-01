@@ -324,7 +324,7 @@ const dbPromise = idb.open('curr-cnv-db', 1, upgradeDB => {
   switch(upgradeDB.oldVersion){
     case 0:
     upgradeDB.createObjectStore('currencies');
-    upgradeDB.createObjectStore('exchange-rates');
+    upgradeDB.createObjectStore('ExchangeRates');
   }
   });
   
@@ -368,8 +368,8 @@ const dbPromise = idb.open('curr-cnv-db', 1, upgradeDB => {
         // Work with JSON data
         //store exchange rates in database for offline use
         dbPromise.then(db => {
-          const tx = db.transaction('exchange-rates', 'readwrite');
-          const store = tx.objectStore('exchange-rates');
+          const tx = db.transaction('ExchangeRates', 'readwrite');
+          const store = tx.objectStore('ExchangeRates');
           store.put(results, query);
         });
   
@@ -386,8 +386,8 @@ const dbPromise = idb.open('curr-cnv-db', 1, upgradeDB => {
       }).catch(offline => {
         //get value from indexedDB 
         dbPromise.then(function(db) {
-          let tx = db.transaction('exchange-rates');
-          let exchangeRateStore = tx.objectStore('exchange-rates');
+          let tx = db.transaction('ExchangeRates');
+          let exchangeRateStore = tx.objectStore('ExchangeRates');
           return exchangeRateStore.get(query);
         }).then(function(value) {
           for (let val in value){
