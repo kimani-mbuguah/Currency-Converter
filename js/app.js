@@ -21,8 +21,8 @@ if ('serviceWorker' in navigator) {
   }
 
   function promisifyRequestCall(obj, method, args) {
-    var request;
-    var p = new Promise(function(resolve, reject) {
+    let request;
+    let p = new Promise(function(resolve, reject) {
       request = obj[method].apply(obj, args);
       promisifyRequest(request).then(resolve, reject);
     });
@@ -32,7 +32,7 @@ if ('serviceWorker' in navigator) {
   }
 
   function promisifyCursorRequestCall(obj, method, args) {
-    var p = promisifyRequestCall(obj, method, args);
+    let p = promisifyRequestCall(obj, method, args);
     return p.then(function(value) {
       if (!value) return;
       return new Cursor(value, p.request);
@@ -124,8 +124,8 @@ if ('serviceWorker' in navigator) {
   ['advance', 'continue', 'continuePrimaryKey'].forEach(function(methodName) {
     if (!(methodName in IDBCursor.prototype)) return;
     Cursor.prototype[methodName] = function() {
-      var cursor = this;
-      var args = arguments;
+      let cursor = this;
+      let args = arguments;
       return Promise.resolve().then(function() {
         cursor._cursor[methodName].apply(cursor._cursor, args);
         return promisifyRequest(cursor._request).then(function(value) {
@@ -243,18 +243,15 @@ if ('serviceWorker' in navigator) {
     'close'
   ]);
 
-  // Add cursor iterators
-  // TODO: remove this once browsers do the right thing with promises
   ['openCursor', 'openKeyCursor'].forEach(function(funcName) {
     [ObjectStore, Index].forEach(function(Constructor) {
-      // Don't create iterateKeyCursor if openKeyCursor doesn't exist.
       if (!(funcName in Constructor.prototype)) return;
 
       Constructor.prototype[funcName.replace('open', 'iterate')] = function() {
-        var args = toArray(arguments);
-        var callback = args[args.length - 1];
-        var nativeObject = this._store || this._index;
-        var request = nativeObject[funcName].apply(nativeObject, args.slice(0, -1));
+        let args = toArray(arguments);
+        let callback = args[args.length - 1];
+        let nativeObject = this._store || this._index;
+        let request = nativeObject[funcName].apply(nativeObject, args.slice(0, -1));
         request.onsuccess = function() {
           callback(request.result);
         };
@@ -266,8 +263,8 @@ if ('serviceWorker' in navigator) {
   [Index, ObjectStore].forEach(function(Constructor) {
     if (Constructor.prototype.getAll) return;
     Constructor.prototype.getAll = function(query, count) {
-      var instance = this;
-      var items = [];
+      let instance = this;
+      let items = [];
 
       return new Promise(function(resolve) {
         instance.iterateCursor(query, function(cursor) {
@@ -287,10 +284,10 @@ if ('serviceWorker' in navigator) {
     };
   });
 
-  var exp = {
+  let exp = {
     open: function(name, version, upgradeCallback) {
-      var p = promisifyRequestCall(indexedDB, 'open', [name, version]);
-      var request = p.request;
+      let p = promisifyRequestCall(indexedDB, 'open', [name, version]);
+      let request = p.request;
 
       if (request) {
         request.onupgradeneeded = function(event) {

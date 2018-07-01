@@ -36,6 +36,7 @@ if ('serviceWorker' in navigator) {
 
         let refreshBtn = document.getElementById ('refresh').addEventListener('click', () =>{
           worker.postMessage({action: 'skipWaiting'});
+          setTimeout(function(){ snackbarWrapper.className = snackbarWrapper.className.replace("show", ""); }, 500);
         })
 
         let dismissBtn = document.getElementById('dismiss').addEventListener('click', ()=>{
