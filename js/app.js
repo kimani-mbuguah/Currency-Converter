@@ -345,6 +345,7 @@ const dbPromise = idb.open('curr-cnv-db', 1, upgradeDB => {
       console.log(err);
     });
   });
+  
 
   function performConversion(){
     //get values from user
@@ -358,13 +359,13 @@ const dbPromise = idb.open('curr-cnv-db', 1, upgradeDB => {
       toCurrency = encodeURIComponent(toCurrency);
       let query = fromCurrency + '_' + toCurrency;
       let url = "https://free.currencyconverterapi.com/api/v5/convert?q=" + query + "&compact=ultra";
+      let currVal = parseFloat(amount);
   
       //fetch 
       fetch(url).then(response => { 
         return response.json();
       }).then(results => {
         // Work with JSON data
-        let currVal = parseFloat(amount);
         //store exchange rates in database for offline use
         dbPromise.then(db => {
           const tx = db.transaction('exchange-rates', 'readwrite');
@@ -382,10 +383,23 @@ const dbPromise = idb.open('curr-cnv-db', 1, upgradeDB => {
         showresult.innerHTML += `<h2 class="to-divider">${total}</h2>`;
         }
   
-      }).catch(err => {
-        (function(){
-          sweetAlert("Oops...", "Something went wrong !!", "error");
-        }());
+      }).catch(offline => {
+        //get value from indexedDB 
+        dbPromise.then(function(db) {
+          let tx = db.transaction('exchange-rates');
+          let exchangeRateStore = tx.objectStore('exchange-rates');
+          return exchangeRateStore.get(query);
+        }).then(function(value) {
+          for (let val in value){
+            let calculation = value[val];
+            let total = calculation * currVal;
+            (function(){
+              swal("Conversion successful !!", `${currVal} ${fromCurrency} amounts to ${total} ${toCurrency}`, "success")
+            }());
+    
+          showresult.innerHTML += `<h2 class="to-divider">${total}</h2>`;
+          }
+        });
       });
     }
   

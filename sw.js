@@ -11,7 +11,8 @@ self.addEventListener('install', (event)=> {
         'css/styles.css',
         'images/bg.jpg',
         'images/favicon.ico',
-        'indexController.js'
+        'indexController.js',
+        'https://free.currencyconverterapi.com/api/v5/currencies'
       ]);
     })
   );
