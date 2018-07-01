@@ -1,4 +1,3 @@
-/***************************check if service worker is supported in browser*************************************/
 if ('serviceWorker' in navigator) {
   /**************************************indexedDB promised script**********************************************/
 'use strict';
@@ -362,7 +361,6 @@ const dbPromise = idb.open('curr-cnv-db', 1, upgradeDB => {
       fetch(url).then(response => { 
         return response.json();
       }).then(results => {
-        // Work with JSON data
         //store exchange rates in database for offline use
         dbPromise.then(db => {
           const tx = db.transaction('ExchangeRates', 'readwrite');
@@ -377,7 +375,7 @@ const dbPromise = idb.open('curr-cnv-db', 1, upgradeDB => {
             swal("Conversion successful !!", `${currVal} ${fromCurrency} amounts to ${total} ${toCurrency}`, "success")
           }());
   
-        showresult.innerHTML += `<h2 class="to-divider">${total}</h2>`;
+        showresult.innerHTML = `<h2 class="to-divider">${total}</h2>`;
         }
   
       }).catch(offline => {
@@ -394,7 +392,7 @@ const dbPromise = idb.open('curr-cnv-db', 1, upgradeDB => {
               swal("Conversion successful !!", `${currVal} ${fromCurrency} amounts to ${total} ${toCurrency}`, "success")
             }());
     
-          showresult.innerHTML += `<h2 class="to-divider">${total}</h2>`;
+          showresult.innerHTML = `<h2 class="to-divider">${total}</h2>`;
           }
         });
       });
