@@ -1,9 +1,9 @@
 let staticCacheName = 'curr-cnv-static-cache-v1';
-self.addEventListener('install', function(event) {
+self.addEventListener('install', (event)=> {
   event.waitUntil(
     caches.open(staticCacheName).then(function(cache) {
       return cache.addAll([
-        'index.html',
+        './',
         'https://fonts.googleapis.com/css?family=Montserrat',
         'js/app.js',
         'js/sweetalert/sweetalert.min.js',
@@ -11,13 +11,13 @@ self.addEventListener('install', function(event) {
         'css/styles.css',
         'images/bg.jpg',
         'images/favicon.ico',
-        'https://free.currencyconverterapi.com/'
+        'indexController.js'
       ]);
     })
   );
 });
 
-self.addEventListener('activate', function(event) {
+self.addEventListener('activate', (event)=> {
   event.waitUntil(
     caches.keys().then(function(cacheNames) {
       return Promise.all(
@@ -32,11 +32,23 @@ self.addEventListener('activate', function(event) {
   );
 });
 
-self.addEventListener('fetch', function(event) {
-  var requestUrl = new URL(event.request.url);
+self.addEventListener('fetch', (event)=> {
+  let requestUrl = new URL(event.request.url);
+  if (requestUrl.origin === location.origin) {
+    if (requestUrl.pathname === './') {
+      event.respondWith(caches.match('./'));
+      return;
+    }
+  }
   event.respondWith(
-    caches.match(event.request).then(function(response) {
+    caches.match(event.request).then((response)=> {
       return response || fetch(event.request);
     })
   );
+});
+
+self.addEventListener('message', (event)=> {
+  if (event.data.action === 'skipWaiting') {
+    self.skipWaiting();
+  }
 });
