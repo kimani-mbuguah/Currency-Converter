@@ -385,14 +385,21 @@ const dbPromise = idb.open('curr-cnv-db', 1, upgradeDB => {
           let exchangeRateStore = tx.objectStore('ExchangeRates');
           return exchangeRateStore.get(query);
         }).then(function(value) {
-          for (let val in value){
-            let calculation = value[val];
-            let total = calculation * currVal;
+          //perform offline conversion only when there is an exchange rate in the database
+          if(value === undefined){
             (function(){
-              swal("Conversion successful !!", `${currVal} ${fromCurrency} amounts to ${total} ${toCurrency}`, "success")
+              swal("Conversion unsuccessful !!", `perform ${fromCurrency} to ${toCurrency} conversion at least once with a working internet connection to experience offline conversion`, "error")
             }());
-    
-          showresult.innerHTML = `<h2 class="to-divider">${total}</h2>`;
+          }else{
+            for (let val in value){
+              let calculation = value[val];
+              let total = calculation * currVal;
+              (function(){
+                swal("Conversion successful !!", `${currVal} ${fromCurrency} amounts to ${total} ${toCurrency}`, "success")
+              }());
+      
+            showresult.innerHTML = `<h2 class="to-divider">${total}</h2>`;
+            }
           }
         });
       });
