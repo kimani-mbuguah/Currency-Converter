@@ -1,6 +1,6 @@
 # Project Title
 
-"# Currency-Converter" 
+"Currency-Converter" 
 
 ## Description
 
@@ -14,7 +14,7 @@ These instructions will get you a copy of the project up and running on your loc
 * Local server ==> XAMPP, WAMP, MAMP OR LAMP
 
 
-* Download xampp from apachefriends.org
+* Download xampp from https://www.apachefriends.org/
 
 ### Installing
 
@@ -28,7 +28,10 @@ These instructions will get you a copy of the project up and running on your loc
 * You only need apache server to run this app
 * Start apache server and launch your browser
 * Launch the app by entering the url localhost/"application folder name"/index.html or
-* 127.0.0.1/"installation directory"/index.html
+* 127.0.0.1/"installation directory"/
+
+### Demo
+To view a working demo of this app, visit https://kimani-mbuguah.github.io/Currency-Converter/
 
 ## Authors
 Kimani Mbuguah  
